@@ -5,14 +5,26 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import useUpdateUser from "./useUpdateUser";
+import useUser from "./useUser";
+import toast from "react-hot-toast";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
+  const {
+    user: { id },
+  } = useUser();
+
   const { updateUser, isUpdating } = useUpdateUser();
 
   function onSubmit({ password }) {
+
+    // Setting up a demo user with restriction
+    if (id === "d4747f46-a89d-43e5-a96d-27c8a28e3c6e") {
+      toast.error("Restricted for demo user");
+      return;
+    }
     updateUser({ password }, { onSuccess: () => reset(), });
   }
 

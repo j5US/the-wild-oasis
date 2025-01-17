@@ -8,11 +8,13 @@ import Input from "../../ui/Input";
 
 import useUser from "./useUser";
 import useUpdateUser from "./useUpdateUser";
+import toast from "react-hot-toast";
 
 function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
     user: {
+      id,
       email,
       user_metadata: { fullName: currentFullName },
     },
@@ -26,6 +28,13 @@ function UpdateUserDataForm() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!fullName) return;
+
+    // Setting up a demo user with restriction
+    if (id === "d4747f46-a89d-43e5-a96d-27c8a28e3c6e") {
+      toast.error("Restricted for demo user");
+      return;
+    }
+
     updateUser(
       { fullName, avatar },
       {
